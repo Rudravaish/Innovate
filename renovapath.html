@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RenovaPath — Know your renovation before you hire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0f0e;
+    --ink-2: #3a3a35;
+    --ink-3: #7a7a72;
+    --ink-4: #b5b5ad;
+    --page: #f6f5f0;
+    --surface: #ffffff;
+    --surface-alt: #f0efe9;
+    --border: #e2e1d8;
+    --border-strong: #c8c7bc;
+    --accent: #2a5c45;
+    --accent-light: #e8f2ed;
+    --accent-mid: #3d7a5e;
+    --warn: #c85a1e;
+    --warn-light: #fdf0e8;
+    --gold: #b8860b;
+    --gold-light: #fdf8e8;
+    --radius-sm: 6px;
+    --radius: 12px;
+    --radius-lg: 20px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--page);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(246,245,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--ink-2);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color .15s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    background: var(--accent);
+    color: #fff !important;
+    padding: 7px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 13px !important;
+  }
+  .nav-cta:hover { background: var(--accent-mid); color: #fff !important; }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 2rem 60px;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 60px;
+    align-items: start;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 99px;
+    margin-bottom: 20px;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .5; transform: scale(0.8); }
+  }
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .hero-title span { color: var(--accent); }
+  .hero-subtitle {
+    font-size: 17px;
+    color: var(--ink-2);
+    line-height: 1.65;
+    max-width: 500px;
+    margin-bottom: 36px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .hero-stat { }
+  .hero-stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-top: 2px;
+  }
+  .stat-divider {
+    width: 1px;
+    background: var(--border-strong);
+    align-self: stretch;
+  }
+
+  /* ── MARKET SIGNAL CARD ── */
+  .market-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    position: sticky;
+    top: 72px;
+  }
+  .market-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 16px;
+  }
+  .market-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .market-item:last-child { border-bottom: none; }
+  .market-item-name { font-size: 13px; color: var(--ink-2); font-weight: 500; }
+  .market-item-region { font-size: 11px; color: var(--ink-4); margin-top: 1px; }
+  .market-item-cost {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    text-align: right;
+  }
+  .market-item-range { font-size: 11px; color: var(--ink-4); text-align: right; margin-top: 1px; }
+  .market-footer {
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--ink-4);
+    text-align: center;
+  }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 2rem;
+  }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+  .section-sub {
+    color: var(--ink-3);
+    font-size: 15px;
+    max-width: 520px;
+    margin-bottom: 40px;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .how-step {
+    background: var(--surface);
+    padding: 28px 24px;
+    position: relative;
+  }
+  .how-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink-4);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .how-icon {
+    width: 40px; height: 40px;
+    background: var(--accent-light);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    font-size: 20px;
+  }
+  .how-step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .how-step-desc { font-size: 13px; color: var(--ink-3); line-height: 1.55; }
+
+  /* ── PLANNER ── */
+  #planner { background: var(--surface-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .planner-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 2rem;
+  }
+
+  /* Step progress */
+  .step-progress {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 40px;
+  }
+  .sp-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-4);
+    transition: color .2s;
+  }
+  .sp-step.active { color: var(--accent); }
+  .sp-step.done { color: var(--ink-2); }
+  .sp-num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    transition: background .2s, color .2s;
+  }
+  .sp-step.active .sp-num { background: var(--accent); color: #fff; }
+  .sp-step.done .sp-num { background: var(--accent); color: #fff; }
+  .sp-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    margin: 0 10px;
+    min-width: 20px;
+  }
+  .sp-line.done { background: var(--accent); }
+
+  /* Form cards */
+  .form-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    display: none;
+  }
+  .form-card.active { display: block; }
+  .form-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .form-desc { color: var(--ink-3); font-size: 14px; margin-bottom: 28px; }
+
+  /* Input groups */
+  .field-group { margin-bottom: 22px; }
+  .field-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-2);
+    margin-bottom: 7px;
+  }
+  .field-group input,
+  .field-group select,
+  .field-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--surface);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+    appearance: none;
+  }
+  .field-group input:focus,
+  .field-group select:focus,
+  .field-group textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(42,92,69,0.12);
+  }
+  .field-group textarea { resize: vertical; min-height: 90px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* Pill selects */
+  .pill-select { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    padding: 8px 16px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: all .15s;
+    background: var(--surface);
+    user-select: none;
+  }
+  .pill:hover { border-color: var(--accent); color: var(--accent); }
+  .pill.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* Budget slider */
+  .budget-display {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--accent);
+    margin: 10px 0 6px;
+  }
+  .budget-range-label { font-size: 12px; color: var(--ink-3); margin-bottom: 14px; }
+  input[type="range"] {
+    width: 100%;
+    height: 5px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .budget-markers {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ink-4);
+    margin-top: 6px;
+  }
+
+  /* Risk flags */
+  .risk-flags { display: flex; flex-direction: column; gap: 10px; }
+  .risk-flag {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    line-height: 1.5;
+    border: 1px solid transparent;
+  }
+  .risk-flag.warn { background: var(--warn-light); border-color: #f0c4a8; color: #7a3010; }
+  .risk-flag.info { background: var(--accent-light); border-color: #b8d8c8; color: #1a4030; }
+  .risk-flag.gold { background: var(--gold-light); border-color: #e8d88a; color: #6b5000; }
+  .risk-flag-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .risk-flag-text strong { font-weight: 600; }
+
+  /* Results */
+  .results-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .result-stat {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .result-stat-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-3); margin-bottom: 6px; }
+  .result-stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .result-stat-sub { font-size: 11px; color: var(--ink-4); margin-top: 3px; }
+  .result-stat.accent-stat { background: var(--accent); border-color: var(--accent); }
+  .result-stat.accent-stat .result-stat-label { color: rgba(255,255,255,0.7); }
+  .result-stat.accent-stat .result-stat-val { color: #fff; }
+  .result-stat.accent-stat .result-stat-sub { color: rgba(255,255,255,0.6); }
+
+  /* AI response area */
+  .ai-output {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 24px 0;
+    min-height: 120px;
+    position: relative;
+  }
+  .ai-output-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .ai-badge {
+    background: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .ai-output-title { font-size: 13px; font-weight: 600; color: var(--ink-3); }
+  .ai-content { font-size: 14px; color: var(--ink-2); line-height: 1.7; }
+  .ai-content h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 16px 0 6px;
+  }
+  .ai-content h4:first-child { margin-top: 0; }
+  .ai-content ul { padding-left: 18px; }
+  .ai-content ul li { margin-bottom: 5px; }
+  .ai-content p { margin-bottom: 10px; }
+  .ai-loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink-3);
+    font-size: 14px;
+    padding: 20px 0;
+  }
+  .dots span {
+    display: inline-block;
+    width: 7px; height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin: 0 2px;
+    animation: bounce .9s infinite;
+  }
+  .dots span:nth-child(2) { animation-delay: .15s; }
+  .dots span:nth-child(3) { animation-delay: .3s; }
+  @keyframes bounce {
+    0%,80%,100% { transform: translateY(0); }
+    40% { transform: translateY(-8px); }
+  }
+
+  /* Scope checklist */
+  .scope-list { display: flex; flex-direction: column; gap: 6px; }
+  .scope-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: border-color .15s;
+    user-select: none;
+  }
+  .scope-item:hover { border-color: var(--accent); }
+  .scope-item input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; }
+  .scope-item.checked { color: var(--ink); }
+  .scope-cost { margin-left: auto; font-size: 12px; font-weight: 600; color: var(--ink-3); white-space: nowrap; }
+
+  /* Comparables */
+  .comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
+  .comp-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    transition: border-color .15s, transform .15s;
+  }
+  .comp-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .comp-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+  .comp-tag.tag-budget { background: var(--accent-light); color: var(--accent); }
+  .comp-tag.tag-mid { background: var(--gold-light); color: var(--gold); }
+  .comp-tag.tag-premium { background: #f0ebfe; color: #5b35b5; }
+  .comp-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .comp-location { font-size: 12px; color: var(--ink-4); margin-bottom: 10px; }
+  .comp-price { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--ink); margin-bottom: 4px; }
+  .comp-timeline { font-size: 12px; color: var(--ink-3); margin-bottom: 12px; }
+  .comp-items { display: flex; flex-direction: column; gap: 4px; }
+  .comp-item { font-size: 12px; color: var(--ink-2); display: flex; align-items: center; gap: 6px; }
+  .comp-item::before { content: '·'; color: var(--accent); font-weight: 700; }
+
+  /* Bid comparison */
+  .bid-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 16px; }
+  .bid-table th {
+    background: var(--surface-alt);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-3);
+    border-bottom: 2px solid var(--border);
+  }
+  .bid-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-2);
+    vertical-align: top;
+  }
+  .bid-table tr:last-child td { border-bottom: none; }
+  .bid-ok { color: var(--accent); font-weight: 600; }
+  .bid-warn { color: var(--warn); font-weight: 600; }
+  .bid-miss { color: var(--ink-4); }
+  .check { font-size: 16px; }
+
+  /* Question cards */
+  .questions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    position: relative;
+    padding-left: 36px;
+  }
+  .q-card::before {
+    content: '?';
+    position: absolute;
+    left: 12px;
+    top: 14px;
+    width: 18px; height: 18px;
+    background: var(--accent-light);
+    color: var(--accent);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 18px;
+    text-align: center;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 22px;
+    border-radius: var(--radius-sm);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all .15s;
+    text-decoration: none;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-mid); transform: translateY(-1px); }
+  .btn-secondary { background: transparent; color: var(--ink-2); border: 1.5px solid var(--border-strong); }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-lg { padding: 14px 28px; font-size: 15px; }
+  .btn-full { width: 100%; justify-content: center; }
+  .form-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; gap: 12px; }
+  .form-nav-right { display: flex; gap: 12px; }
+
+  /* Competitor landscape */
+  .competitor-section { background: var(--ink); border-top: 1px solid #222; }
+  .competitor-section .section { color: #fff; }
+  .competitor-section .section-eyebrow { color: #6db892; }
+  .competitor-section .section-title { color: #fff; }
+  .competitor-section .section-sub { color: #9a9990; }
+  .comp-landscape-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .comp-landscape-card {
+    background: #1a1a18;
+    border: 1px solid #2d2d2a;
+    border-radius: var(--radius);
+    padding: 22px;
+    transition: border-color .15s;
+  }
+  .comp-landscape-card:hover { border-color: #4a4a45; }
+  .comp-landscape-card.ours { border-color: var(--accent); background: rgba(42,92,69,0.15); }
+  .comp-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .comp-category { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #5a5a55; margin-bottom: 12px; }
+  .comp-category.ours-tag { color: var(--accent-mid); }
+  .comp-pros-cons { font-size: 12px; color: #7a7a72; line-height: 1.6; }
+  .comp-pros-cons .pro { color: #6db892; }
+  .comp-pros-cons .con { color: #c87060; }
+  .comp-wedge {
+    background: rgba(42,92,69,0.2);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-top: 28px;
+    font-size: 14px;
+    color: #c8e8d8;
+    line-height: 1.7;
+  }
+  .comp-wedge strong { color: #fff; font-family: 'Syne', sans-serif; }
+
+  /* Roadmap */
+  .roadmap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .roadmap-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+  }
+  .roadmap-phase {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-4); margin-bottom: 10px;
+  }
+  .roadmap-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+  .roadmap-items { display: flex; flex-direction: column; gap: 7px; }
+  .roadmap-item { font-size: 13px; color: var(--ink-2); display: flex; align-items: flex-start; gap: 8px; }
+  .roadmap-item::before { content: '→'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+  /* Business model */
+  .biz-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .biz-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+  }
+  .biz-icon { font-size: 24px; margin-bottom: 12px; }
+  .biz-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .biz-desc { font-size: 13px; color: var(--ink-3); line-height: 1.55; }
+  .biz-amount { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--accent); margin-top: 10px; }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 2rem;
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  footer a { color: var(--ink-3); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+
+  /* Divider */
+  hr { border: none; border-top: 1px solid var(--border); }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .market-card { position: static; }
+    .how-grid { grid-template-columns: 1fr 1fr; }
+    .comp-grid, .comp-landscape-grid, .roadmap-grid { grid-template-columns: 1fr 1fr; }
+    .questions-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .how-grid, .comp-grid, .comp-landscape-grid, .roadmap-grid, .biz-grid, .results-header { grid-template-columns: 1fr; }
+    .field-row { grid-template-columns: 1fr; }
+    nav { padding: 0 1rem; }
+    .nav-links { display: none; }
+    .hero { padding: 40px 1rem 40px; }
+    .section { padding: 40px 1rem; }
+    .form-card { padding: 24px; }
+  }
+
+  /* Utility */
+  .text-center { text-align: center; }
+  .mb-0 { margin-bottom: 0; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nav-logo"><span class="logo-dot"></span>RenovaPath</a>
+  <ul class="nav-links">
+    <li><a href="#how-it-works">How it works</a></li>
+    <li><a href="#planner">Get estimate</a></li>
+    <li><a href="#comparables">Comparables</a></li>
+    <li><a href="#market" class="nav-cta">Start free</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section>
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">Bid Intelligence · Scope AI · Local data</div>
+    <h1 class="hero-title">Know your renovation<br><span>before you hire</span></h1>
+    <p class="hero-subtitle">Stop overpaying. Stop missing scope. RenovaPath shows you real local costs, flags permit risks, and tells you exactly what to ask every contractor before you sign.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">$37B</div>
+        <div class="hero-stat-label">lost to scope gaps annually</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">37%</div>
+        <div class="hero-stat-label">of homeowners go over budget</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">9%</div>
+        <div class="hero-stat-label">currently use any AI tool</div>
+      </div>
+    </div>
+    <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap;">
+      <a href="#planner" class="btn btn-primary btn-lg">Get free scope estimate →</a>
+      <a href="#comparables" class="btn btn-secondary btn-lg">See real project data</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="market-card" id="market">
+      <div class="market-card-title">📍 Live cost index — Bay Area 2025</div>
+      <div class="market-item">
+        <div>
+          <div class="market-item-name">Kitchen remodel</div>
+          <div class="market-item-region">SF Bay Area, mid-range</div>
+        </div>
+        <div>
+          <div class="market-item-cost">$75K</div>
+          <div class="market-item-range">$50K–$100K</div>
+        </div>
+      </div>
+      <div class="market-item">
+        <div>
+          <div class="market-item-name">Bathroom remodel</div>
+          <div class="market-item-region">SF Bay Area, full bath</div>
+        </div>
+        <div>
+          <div class="market-item-cost">$32K</div>
+          <div class="market-item-range">$18K–$60K</div>
+        </div>
+      </div>
+      <div class="market-item">
+        <div>
+          <div class="market-item-name">ADU (attached)</div>
+          <div class="market-item-region">Peninsula / East Bay</div>
+        </div>
+        <div>
+          <div class="market-item-cost">$180K</div>
+          <div class="market-item-range">$140K–$280K</div>
+        </div>
+      </div>
+      <div class="market-item">
+        <div>
+          <div class="market-item-name">ADU (detached)</div>
+          <div class="market-item-region">Peninsula / East Bay</div>
+        </div>
+        <div>
+          <div class="market-item-cost">$260K</div>
+          <div class="market-item-range">$200K–$380K</div>
+        </div>
+      </div>
+      <div class="market-item">
+        <div>
+          <div class="market-item-name">Full home gut</div>
+          <div class="market-item-region">Bay Area, 2,000 sq ft</div>
+        </div>
+        <div>
+          <div class="market-item-cost">$700K</div>
+          <div class="market-item-range">$500K–$1.2M</div>
+        </div>
+      </div>
+      <div class="market-item">
+        <div>
+          <div class="market-item-name">Labor premium vs. national</div>
+          <div class="market-item-region">Skilled trades, Bay Area</div>
+        </div>
+        <div>
+          <div class="market-item-cost">+40%</div>
+          <div class="market-item-range">$150–$250/hr</div>
+        </div>
+      </div>
+      <div class="market-footer">Sources: Block Renovation, MSK Design Build, Waves Remodeling · 2025–26</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<hr>
+
+<!-- ── HOW IT WORKS ── -->
+<section id="how-it-works">
+<div class="section">
+  <div class="section-eyebrow">How it works</div>
+  <h2 class="section-title">From confused to contractor-ready in 10 minutes</h2>
+  <p class="section-sub">Not a quote. Not a lead gen form. Real scope intelligence so you walk into every bid conversation prepared.</p>
+  <div class="how-grid">
+    <div class="how-step">
+      <div class="how-num">Step 01</div>
+      <div class="how-icon">🏠</div>
+      <div class="how-step-title">Describe your project</div>
+      <p class="how-step-desc">Project type, location, square footage, and your rough budget. Takes under 2 minutes.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">Step 02</div>
+      <div class="how-icon">🧠</div>
+      <div class="how-step-title">AI builds your scope</div>
+      <p class="how-step-desc">Our AI generates a line-by-line scope, flags permit risks, and surfaces the items contractors often hide.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">Step 03</div>
+      <div class="how-icon">📊</div>
+      <div class="how-step-title">Compare real bids</div>
+      <p class="how-step-desc">Upload 2–3 contractor bids. We parse them, find gaps, and show you what's missing or overpriced.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">Step 04</div>
+      <div class="how-icon">✅</div>
+      <div class="how-step-title">Hire with confidence</div>
+      <p class="how-step-desc">Walk in with a complete scope checklist and 12 questions every contractor must answer before you sign.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<hr>
+
+<!-- ── PLANNER ── -->
+<section id="planner">
+<div class="planner-wrap">
+  <div class="section-eyebrow text-center">AI renovation planner</div>
+  <h2 class="section-title text-center">Get your free scope estimate</h2>
+  <p class="section-sub text-center" style="margin:0 auto 36px;">Powered by real Bay Area project data + Claude AI. No email required to see your estimate.</p>
+
+  <!-- Step progress -->
+  <div class="step-progress">
+    <div class="sp-step active" id="sp1"><span class="sp-num">1</span><span>Project</span></div>
+    <div class="sp-line" id="sl1"></div>
+    <div class="sp-step" id="sp2"><span class="sp-num">2</span><span>Details</span></div>
+    <div class="sp-line" id="sl2"></div>
+    <div class="sp-step" id="sp3"><span class="sp-num">3</span><span>Budget</span></div>
+    <div class="sp-line" id="sl3"></div>
+    <div class="sp-step" id="sp4"><span class="sp-num">4</span><span>Results</span></div>
+  </div>
+
+  <!-- Step 1: Project type -->
+  <div class="form-card active" id="step1">
+    <div class="form-title">What are you renovating?</div>
+    <p class="form-desc">Select your project type. You can add more later.</p>
+    <div class="field-group">
+      <label>Project type</label>
+      <div class="pill-select" id="projectTypePills">
+        <div class="pill" data-val="kitchen">🍳 Kitchen</div>
+        <div class="pill" data-val="bathroom">🚿 Bathroom</div>
+        <div class="pill" data-val="adu">🏡 ADU / In-law unit</div>
+        <div class="pill" data-val="addition">🔨 Home addition</div>
+        <div class="pill" data-val="basement">🏚️ Basement</div>
+        <div class="pill" data-val="full">🏠 Full home remodel</div>
+        <div class="pill" data-val="outdoor">🌿 Outdoor / Deck</div>
+        <div class="pill" data-val="other">⚡ Other</div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Your location</label>
+      <select id="locationSelect">
+        <option value="">Select region</option>
+        <option value="sf">San Francisco</option>
+        <option value="eastbay">East Bay (Oakland / Berkeley / Pleasanton)</option>
+        <option value="peninsula">Peninsula (Palo Alto / San Jose)</option>
+        <option value="marin">Marin County</option>
+        <option value="sacramento">Sacramento</option>
+        <option value="la">Los Angeles</option>
+        <option value="sandiego">San Diego</option>
+        <option value="national">Other U.S. market</option>
+      </select>
+    </div>
+    <div class="form-nav">
+      <div></div>
+      <button class="btn btn-primary" onclick="nextStep(1)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Details -->
+  <div class="form-card" id="step2">
+    <div class="form-title">Tell us more about your project</div>
+    <p class="form-desc">These details help us generate a realistic scope and flag common risks.</p>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Approximate sq footage</label>
+        <select id="sqft">
+          <option value="">Select range</option>
+          <option value="under100">Under 100 sq ft</option>
+          <option value="100-200">100–200 sq ft</option>
+          <option value="200-400">200–400 sq ft</option>
+          <option value="400-800">400–800 sq ft</option>
+          <option value="over800">800+ sq ft</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Home built in</label>
+        <select id="homeAge">
+          <option value="">Select era</option>
+          <option value="pre1940">Before 1940 (pre-war)</option>
+          <option value="1940-1970">1940–1970</option>
+          <option value="1970-1990">1970–1990</option>
+          <option value="1990-2010">1990–2010</option>
+          <option value="post2010">After 2010</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Finish level</label>
+      <div class="pill-select" id="finishPills">
+        <div class="pill" data-val="budget">💰 Budget-conscious</div>
+        <div class="pill" data-val="mid">⭐ Mid-range (most popular)</div>
+        <div class="pill" data-val="premium">💎 Premium / luxury</div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Will you need permits? (check all that apply)</label>
+      <div class="pill-select" id="permitPills">
+        <div class="pill" data-val="structural">Structural changes</div>
+        <div class="pill" data-val="plumbing">Move plumbing</div>
+        <div class="pill" data-val="electrical">Electrical panel / rewire</div>
+        <div class="pill" data-val="adu_permit">ADU / new unit</div>
+        <div class="pill" data-val="none">No major changes</div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Anything specific you're planning? <span style="color:var(--ink-4);font-weight:400">(optional)</span></label>
+      <textarea id="projectNotes" placeholder="e.g. Open up kitchen to dining room, add island, replace all cabinetry, quartz counters, new appliances..."></textarea>
+    </div>
+    <div class="form-nav">
+      <button class="btn btn-secondary" onclick="prevStep(2)">← Back</button>
+      <button class="btn btn-primary" onclick="nextStep(2)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Budget -->
+  <div class="form-card" id="step3">
+    <div class="form-title">What's your budget range?</div>
+    <p class="form-desc">We'll flag if your expectations are realistic for your location and scope, and show what each tier gets you.</p>
+    <div class="field-group">
+      <label>Target budget</label>
+      <div class="budget-display" id="budgetDisplay">$75,000</div>
+      <div class="budget-range-label" id="budgetLabel">Mid-range kitchen — achievable in most Bay Area markets</div>
+      <input type="range" id="budgetSlider" min="15000" max="500000" step="5000" value="75000" oninput="updateBudget(this.value)">
+      <div class="budget-markers">
+        <span>$15K</span><span>$100K</span><span>$200K</span><span>$350K</span><span>$500K+</span>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>How far along are you?</label>
+      <div class="pill-select" id="stagePills">
+        <div class="pill" data-val="dreaming">Just exploring ideas</div>
+        <div class="pill" data-val="planning">Actively planning</div>
+        <div class="pill" data-val="bids">Getting bids now</div>
+        <div class="pill" data-val="ready">Ready to hire</div>
+      </div>
+    </div>
+    <div class="form-nav">
+      <button class="btn btn-secondary" onclick="prevStep(3)">← Back</button>
+      <button class="btn btn-primary" onclick="runAI()">Generate my scope report →</button>
+    </div>
+  </div>
+
+  <!-- Step 4: Results -->
+  <div class="form-card" id="step4">
+    <div class="form-title">Your renovation scope report</div>
+    <p class="form-desc" id="reportSubtitle">Generated for your project — based on real Bay Area market data.</p>
+
+    <!-- Stats row -->
+    <div class="results-header">
+      <div class="result-stat accent-stat">
+        <div class="result-stat-label">Estimated range</div>
+        <div class="result-stat-val" id="estRange">—</div>
+        <div class="result-stat-sub" id="estSub">based on your inputs</div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-label">Suggested contingency</div>
+        <div class="result-stat-val" id="contingencyVal">20%</div>
+        <div class="result-stat-sub">Add this buffer to any bid</div>
+      </div>
+      <div class="result-stat">
+        <div class="result-stat-label">Typical timeline</div>
+        <div class="result-stat-val" id="timelineVal">8–14 wks</div>
+        <div class="result-stat-sub" id="timelineSub">permit adds 2–6 weeks</div>
+      </div>
+    </div>
+
+    <!-- Risk flags -->
+    <div id="riskFlags" class="risk-flags" style="margin-bottom:20px;"></div>
+
+    <!-- AI scope output -->
+    <div class="ai-output">
+      <div class="ai-output-header">
+        <span class="ai-badge">AI</span>
+        <span class="ai-output-title">Scope breakdown + bid intelligence</span>
+      </div>
+      <div class="ai-content" id="aiContent">
+        <div class="ai-loading" id="aiLoading">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <span>Generating your scope report...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scope checklist -->
+    <div id="scopeSection" class="hidden">
+      <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin:24px 0 12px;">Scope checklist — check off what your bid includes</h3>
+      <div class="scope-list" id="scopeList"></div>
+      <div style="margin-top:14px;padding:12px 16px;background:var(--surface-alt);border-radius:var(--radius-sm);font-size:13px;color:var(--ink-3);">
+        ☑ Items not on your contractor's bid are missing scope — get a line-item explanation before signing.
+      </div>
+    </div>
+
+    <!-- Questions for contractors -->
+    <div id="questionsSection" class="hidden">
+      <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin:24px 0 12px;">12 questions to ask every contractor</h3>
+      <div class="questions-grid" id="questionsList"></div>
+    </div>
+
+    <div class="form-nav" style="margin-top:28px;">
+      <button class="btn btn-secondary" onclick="resetForm()">← Start over</button>
+      <div class="form-nav-right">
+        <a href="#comparables" class="btn btn-secondary">See comparables</a>
+        <a href="#bid-compare" class="btn btn-primary">Compare bids →</a>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<hr>
+
+<!-- ── COMPARABLES ── -->
+<section id="comparables">
+<div class="section">
+  <div class="section-eyebrow">Real project data</div>
+  <h2 class="section-title">What real renovations cost</h2>
+  <p class="section-sub">Drawn from completed Bay Area projects. Ranges reflect finish level, permit complexity, and contractor tier.</p>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;" id="compFilters">
+    <button class="btn btn-primary" onclick="filterComps('all',this)">All projects</button>
+    <button class="btn btn-secondary" onclick="filterComps('kitchen',this)">Kitchen</button>
+    <button class="btn btn-secondary" onclick="filterComps('bathroom',this)">Bathroom</button>
+    <button class="btn btn-secondary" onclick="filterComps('adu',this)">ADU</button>
+    <button class="btn btn-secondary" onclick="filterComps('full',this)">Full remodel</button>
+  </div>
+
+  <div class="comp-grid" id="compGrid"></div>
+</div>
+</section>
+
+<hr>
+
+<!-- ── BID COMPARE ── -->
+<section id="bid-compare">
+<div class="section">
+  <div class="section-eyebrow">Bid intelligence</div>
+  <h2 class="section-title">What's missing from your contractor bid?</h2>
+  <p class="section-sub">A typical contractor bid leaves out 15–30% of real project costs. Here's what to watch for.</p>
+
+  <div style="overflow-x:auto;">
+  <table class="bid-table">
+    <thead>
+      <tr>
+        <th>Line item</th>
+        <th>Should be in bid</th>
+        <th>Bid A — "Budget"</th>
+        <th>Bid B — "Mid"</th>
+        <th>Bid C — "Premium"</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Demolition + haul-away</strong></td><td class="bid-ok">✓ Required</td><td class="bid-ok">✓ Included</td><td class="bid-ok">✓ Included</td><td class="bid-ok">✓ Included</td></tr>
+      <tr><td><strong>Permit fees</strong></td><td class="bid-ok">✓ Required</td><td class="bid-warn">⚠ Not listed</td><td class="bid-ok">✓ $2,400</td><td class="bid-ok">✓ $2,800</td></tr>
+      <tr><td><strong>Plumbing rough-in + finish</strong></td><td class="bid-ok">✓ Required</td><td class="bid-ok">✓ Included</td><td class="bid-ok">✓ $8,500</td><td class="bid-ok">✓ $11,200</td></tr>
+      <tr><td><strong>Electrical updates</strong></td><td class="bid-ok">✓ Required</td><td class="bid-warn">⚠ "Allowance only"</td><td class="bid-ok">✓ $4,200</td><td class="bid-ok">✓ $5,800</td></tr>
+      <tr><td><strong>Tile work (labor)</strong></td><td class="bid-ok">✓ Required</td><td class="bid-ok">✓ Included</td><td class="bid-ok">✓ $6,800</td><td class="bid-ok">✓ $9,400</td></tr>
+      <tr><td><strong>Material procurement</strong></td><td class="bid-ok">✓ Required</td><td class="bid-miss">✗ Owner supply</td><td class="bid-ok">✓ Managed</td><td class="bid-ok">✓ Managed</td></tr>
+      <tr><td><strong>Waterproofing / moisture barrier</strong></td><td class="bid-ok">✓ Required</td><td class="bid-warn">⚠ Not mentioned</td><td class="bid-warn">⚠ Not mentioned</td><td class="bid-ok">✓ $1,800</td></tr>
+      <tr><td><strong>Hidden damage contingency</strong></td><td class="bid-ok">✓ Required</td><td class="bid-miss">✗ Missing</td><td class="bid-warn">⚠ 10% clause</td><td class="bid-ok">✓ 15% included</td></tr>
+      <tr><td><strong>Final inspection + sign-off</strong></td><td class="bid-ok">✓ Required</td><td class="bid-miss">✗ Missing</td><td class="bid-ok">✓ Included</td><td class="bid-ok">✓ Included</td></tr>
+      <tr><td><strong>Cleanup + site protection</strong></td><td class="bid-ok">✓ Required</td><td class="bid-miss">✗ Missing</td><td class="bid-ok">✓ Included</td><td class="bid-ok">✓ Included</td></tr>
+      <tr>
+        <td><strong>Total listed</strong></td><td></td>
+        <td class="bid-warn" style="font-family:'Syne',sans-serif;font-weight:700;">$28,400<br><small style="font-weight:400;color:#999">Real cost: ~$44K</small></td>
+        <td class="bid-ok" style="font-family:'Syne',sans-serif;font-weight:700;">$41,200<br><small style="font-weight:400;color:#999">Fairly complete</small></td>
+        <td class="bid-ok" style="font-family:'Syne',sans-serif;font-weight:700;">$56,800<br><small style="font-weight:400;color:#999">Premium, complete</small></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="risk-flag warn" style="margin-top:16px;">
+    <span class="risk-flag-icon">⚠️</span>
+    <div class="risk-flag-text"><strong>Bid A is dangerously incomplete.</strong> Missing permits, hidden damage contingency, cleanup, and site protection — these will appear as change orders after signing. Adjust the "real cost" upward by at least $12–16K before comparing.</div>
+  </div>
+</div>
+</section>
+
+<hr>
+
+<!-- ── COMPETITOR LANDSCAPE ── -->
+<section class="competitor-section" id="landscape">
+<div class="section">
+  <div class="section-eyebrow">Market landscape</div>
+  <h2 class="section-title">What exists — and where we're different</h2>
+  <p class="section-sub">The renovation AI space is real and crowded. Your angle has to be sharper.</p>
+  <div class="comp-landscape-grid">
+    <div class="comp-landscape-card">
+      <div class="comp-name">Block Renovation</div>
+      <div class="comp-category">Closest competitor</div>
+      <div class="comp-pros-cons">
+        <div class="pro">✓ AI scope + real cost estimates</div>
+        <div class="pro">✓ Vetted contractor matching</div>
+        <div class="pro">✓ Acquired BuildZoom Nov 2025</div>
+        <div class="pro">✓ $100M+ project volume</div>
+        <div class="con">✗ Contractor-first model (they need supply)</div>
+        <div class="con">✗ No bid comparison or gap analysis</div>
+        <div class="con">✗ No ADU-specific intelligence</div>
+      </div>
+    </div>
+    <div class="comp-landscape-card">
+      <div class="comp-name">Angi / Houzz / Thumbtack</div>
+      <div class="comp-category">Lead gen platforms</div>
+      <div class="comp-pros-cons">
+        <div class="pro">✓ Huge contractor supply</div>
+        <div class="pro">✓ Brand awareness</div>
+        <div class="con">✗ Pay-to-win for contractors</div>
+        <div class="con">✗ No scope intelligence</div>
+        <div class="con">✗ No bid comparison</div>
+        <div class="con">✗ User goes in blind</div>
+      </div>
+    </div>
+    <div class="comp-landscape-card">
+      <div class="comp-name">Planner 5D / Houzz Pro</div>
+      <div class="comp-category">Design visualization</div>
+      <div class="comp-pros-cons">
+        <div class="pro">✓ Strong 3D/AR visualization</div>
+        <div class="pro">✓ Material selection</div>
+        <div class="con">✗ Design tool, not bid intelligence</div>
+        <div class="con">✗ No contractor matching</div>
+        <div class="con">✗ No scope gap analysis</div>
+      </div>
+    </div>
+    <div class="comp-landscape-card">
+      <div class="comp-name">HomeZada</div>
+      <div class="comp-category">Home management</div>
+      <div class="comp-pros-cons">
+        <div class="pro">✓ Budget tracking, receipts</div>
+        <div class="pro">✓ Project organization</div>
+        <div class="con">✗ No AI scope generation</div>
+        <div class="con">✗ No bid comparison</div>
+        <div class="con">✗ Weak on pre-hire intelligence</div>
+      </div>
+    </div>
+    <div class="comp-landscape-card">
+      <div class="comp-name">Handoff</div>
+      <div class="comp-category">Contractor-side tool</div>
+      <div class="comp-pros-cons">
+        <div class="pro">✓ AI estimating for contractors</div>
+        <div class="pro">✓ Project admin workflows</div>
+        <div class="con">✗ B2B, not homeowner-facing</div>
+        <div class="con">✗ No consumer bid comparison</div>
+      </div>
+    </div>
+    <div class="comp-landscape-card ours">
+      <div class="comp-name">RenovaPath ✦</div>
+      <div class="comp-category ours-tag">Your wedge</div>
+      <div class="comp-pros-cons">
+        <div class="pro">✓ Homeowner-first bid intelligence</div>
+        <div class="pro">✓ ADU + permit risk flags</div>
+        <div class="pro">✓ Scope gap detection in bids</div>
+        <div class="pro">✓ Zillow-style comparable data</div>
+        <div class="pro">✓ Pre-hire contractor Q&A generator</div>
+      </div>
+    </div>
+  </div>
+  <div class="comp-wedge">
+    <strong>Your sharpest wedge:</strong> "Zillow for renovation decisions before you hire a contractor." People are terrified of getting ripped off. Contractors give vague quotes. Homeowners don't know what's missing. That pain is real — and no existing product solves it from the homeowner's side with bid-level intelligence.
+  </div>
+</div>
+</section>
+
+<hr>
+
+<!-- ── ROADMAP ── -->
+<section id="roadmap">
+<div class="section">
+  <div class="section-eyebrow">MVP roadmap</div>
+  <h2 class="section-title">From prototype to product</h2>
+  <p class="section-sub">Three tight phases. Ship each before building the next.</p>
+  <div class="roadmap-grid">
+    <div class="roadmap-card">
+      <div class="roadmap-phase">Phase 1 · weeks 1–6</div>
+      <div class="roadmap-title">Scope intelligence</div>
+      <div class="roadmap-items">
+        <div class="roadmap-item">AI scope generator (project type + location → line items)</div>
+        <div class="roadmap-item">Regional cost database (Bay Area, LA, national)</div>
+        <div class="roadmap-item">Permit risk flag engine</div>
+        <div class="roadmap-item">Contractor question generator</div>
+        <div class="roadmap-item">PDF export of scope report</div>
+      </div>
+    </div>
+    <div class="roadmap-card">
+      <div class="roadmap-phase">Phase 2 · weeks 7–14</div>
+      <div class="roadmap-title">Bid comparison</div>
+      <div class="roadmap-items">
+        <div class="roadmap-item">PDF bid upload + parsing (LLM extraction)</div>
+        <div class="roadmap-item">Scope gap detection vs. expected items</div>
+        <div class="roadmap-item">Price anomaly flagging vs. market rates</div>
+        <div class="roadmap-item">Side-by-side bid comparison view</div>
+        <div class="roadmap-item">Missing line item alerts</div>
+      </div>
+    </div>
+    <div class="roadmap-card">
+      <div class="roadmap-phase">Phase 3 · weeks 15–24</div>
+      <div class="roadmap-title">Marketplace + data moat</div>
+      <div class="roadmap-items">
+        <div class="roadmap-item">ADU-specific module (permit, zoning, setbacks)</div>
+        <div class="roadmap-item">Comparable project database (crowdsourced)</div>
+        <div class="roadmap-item">Verified contractor profiles</div>
+        <div class="roadmap-item">Project tracking post-hire</div>
+        <div class="roadmap-item">Contractor lead gen (revenue)</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:28px;padding:20px 24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);font-size:13px;color:var(--ink-3);">
+    <strong style="color:var(--ink);font-family:'Syne',sans-serif;">Suggested tech stack:</strong>&nbsp; Next.js 14 · Tailwind · FastAPI · PostgreSQL · pgvector · Claude API (scope + bid parsing) · Stripe · Vercel
+  </div>
+</div>
+</section>
+
+<hr>
+
+<!-- ── BUSINESS MODEL ── -->
+<section id="business">
+<div class="section">
+  <div class="section-eyebrow">Business model</div>
+  <h2 class="section-title">Four revenue streams</h2>
+  <p class="section-sub">Free tool → premium features → marketplace → B2B. Classic funnel with real LTV.</p>
+  <div class="biz-grid">
+    <div class="biz-card">
+      <div class="biz-icon">🔍</div>
+      <div class="biz-title">Bid comparison (freemium)</div>
+      <p class="biz-desc">Scope report free. Bid upload + gap analysis requires subscription. Users who are mid-project have high willingness to pay.</p>
+      <div class="biz-amount">$19–49 / project</div>
+    </div>
+    <div class="biz-card">
+      <div class="biz-icon">🤝</div>
+      <div class="biz-title">Contractor referral fee</div>
+      <p class="biz-desc">Warm, pre-qualified lead referrals to vetted contractors. Homeowner already has scope doc — conversion rate is much higher than cold leads.</p>
+      <div class="biz-amount">$200–800 / signed project</div>
+    </div>
+    <div class="biz-card">
+      <div class="biz-icon">🏡</div>
+      <div class="biz-title">ADU intelligence (SaaS)</div>
+      <p class="biz-desc">ADU-specific module: zoning lookup, permit timeline, setback rules, financing options. Real estate investors + ADU developers pay for accuracy.</p>
+      <div class="biz-amount">$99 / month</div>
+    </div>
+    <div class="biz-card">
+      <div class="biz-icon">📊</div>
+      <div class="biz-title">Project data (B2B)</div>
+      <p class="biz-desc">Anonymized renovation cost data sold to lenders, real estate platforms, and insurance companies. High-margin once dataset exists.</p>
+      <div class="biz-amount">$5K–50K / year (enterprise)</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<hr>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span style="font-family:'Syne',sans-serif;font-weight:700;">RenovaPath</span>
+  <a href="#planner">Get estimate</a>
+  <a href="#comparables">Comparables</a>
+  <a href="#landscape">Market map</a>
+  <a href="#roadmap">Roadmap</a>
+  <span>Built as an MVP prototype · 2025 market data</span>
+</footer>
+
+<script>
+// ── State ──
+const state = {
+  step: 1,
+  projectType: '',
+  location: '',
+  sqft: '',
+  homeAge: '',
+  finish: '',
+  permits: [],
+  notes: '',
+  budget: 75000,
+  stage: ''
+};
+
+// ── Pill selectors ──
+function initPills(containerId, stateKey, multi=false) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.querySelectorAll('.pill').forEach(p => {
+    p.addEventListener('click', () => {
+      if (multi) {
+        p.classList.toggle('selected');
+        const arr = Array.from(c.querySelectorAll('.pill.selected')).map(x=>x.dataset.val);
+        state[stateKey] = arr;
+      } else {
+        c.querySelectorAll('.pill').forEach(x => x.classList.remove('selected'));
+        p.classList.add('selected');
+        state[stateKey] = p.dataset.val;
+      }
+    });
+  });
+}
+
+initPills('projectTypePills', 'projectType');
+initPills('finishPills', 'finish');
+initPills('permitPills', 'permits', true);
+initPills('stagePills', 'stage');
+
+// Location select
+document.getElementById('locationSelect').addEventListener('change', e => state.location = e.target.value);
+document.getElementById('sqft').addEventListener('change', e => state.sqft = e.target.value);
+document.getElementById('homeAge').addEventListener('change', e => state.homeAge = e.target.value);
+document.getElementById('projectNotes').addEventListener('input', e => state.notes = e.target.value);
+
+// ── Budget slider ──
+function updateBudget(val) {
+  state.budget = parseInt(val);
+  const num = parseInt(val);
+  document.getElementById('budgetDisplay').textContent = '$' + num.toLocaleString();
+  let label = '';
+  if (num < 30000) label = 'Budget refresh — cosmetic updates only';
+  else if (num < 60000) label = 'Mid-range single room — realistic for bathroom or small kitchen';
+  else if (num < 100000) label = 'Mid-range kitchen or primary bath — achievable in Bay Area';
+  else if (num < 200000) label = 'High-end kitchen + bath combo or small ADU';
+  else if (num < 350000) label = 'ADU / addition or full partial remodel';
+  else label = 'Full home remodel or high-end ADU';
+  document.getElementById('budgetLabel').textContent = label;
+}
+
+// ── Steps ──
+function setStep(n) {
+  document.querySelectorAll('.form-card').forEach(c => c.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  state.step = n;
+  // Progress
+  for (let i=1;i<=4;i++) {
+    const sp = document.getElementById('sp'+i);
+    if (!sp) continue;
+    sp.classList.remove('active','done');
+    if (i < n) sp.classList.add('done');
+    else if (i === n) sp.classList.add('active');
+  }
+  for (let i=1;i<=3;i++) {
+    const sl = document.getElementById('sl'+i);
+    if (!sl) continue;
+    sl.classList.toggle('done', i < n);
+  }
+  window.scrollTo({top: document.getElementById('planner').offsetTop - 20, behavior:'smooth'});
+}
+
+function nextStep(from) { setStep(from+1); }
+function prevStep(from) { setStep(from-1); }
+
+function resetForm() {
+  state.step = 1;
+  state.projectType = '';
+  state.location = '';
+  state.finish = '';
+  state.permits = [];
+  state.stage = '';
+  document.querySelectorAll('.pill.selected').forEach(p => p.classList.remove('selected'));
+  document.getElementById('locationSelect').value = '';
+  document.getElementById('sqft').value = '';
+  document.getElementById('homeAge').value = '';
+  document.getElementById('projectNotes').value = '';
+  document.getElementById('budgetSlider').value = 75000;
+  updateBudget(75000);
+  setStep(1);
+}
+
+// ── Cost ranges by type + location ──
+const costData = {
+  kitchen: { sf: [65,120], eastbay: [55,100], peninsula: [60,110], marin: [70,130], national: [25,75] },
+  bathroom: { sf: [28,70], eastbay: [22,55], peninsula: [25,60], marin: [30,75], national: [12,35] },
+  adu: { sf: [220,380], eastbay: [170,280], peninsula: [200,340], marin: [240,400], national: [100,200] },
+  addition: { sf: [300,600], eastbay: [250,500], peninsula: [280,550], marin: [320,650], national: [150,350] },
+  basement: { sf: [80,150], eastbay: [70,130], peninsula: [75,140], marin: [85,160], national: [40,90] },
+  full: { sf: [600,1200], eastbay: [500,1000], peninsula: [550,1100], marin: [650,1300], national: [200,600] },
+  outdoor: { sf: [40,120], eastbay: [35,100], peninsula: [38,110], marin: [45,130], national: [20,60] },
+  other: { sf: [30,150], eastbay: [25,120], peninsula: [28,130], marin: [32,160], national: [15,80] }
+};
+
+const timelines = {
+  kitchen: '6–12 wks', bathroom: '4–8 wks', adu: '12–24 mos', addition: '6–14 mos',
+  basement: '6–10 wks', full: '6–18 mos', outdoor: '4–8 wks', other: '4–12 wks'
+};
+
+const projectNames = {
+  kitchen: 'Kitchen remodel', bathroom: 'Bathroom remodel', adu: 'ADU / In-law unit',
+  addition: 'Home addition', basement: 'Basement remodel', full: 'Full home remodel',
+  outdoor: 'Outdoor / Deck', other: 'Custom project'
+};
+
+const locationMult = {
+  sf: 1.0, eastbay: 0.9, peninsula: 0.95, marin: 1.1, sacramento: 0.75, la: 0.85, sandiego: 0.80, national: 0.65
+};
+const locationNames = {
+  sf: 'San Francisco', eastbay: 'East Bay', peninsula: 'Peninsula', marin: 'Marin County',
+  sacramento: 'Sacramento', la: 'Los Angeles', sandiego: 'San Diego', national: 'National avg.'
+};
+const finishMult = { budget: 0.7, mid: 1.0, premium: 1.45 };
+
+// ── Generate risk flags ──
+function buildRiskFlags() {
+  const flags = [];
+  const pt = state.projectType;
+  const age = state.homeAge;
+  const permits = state.permits || [];
+  const loc = state.location;
+
+  if (pt === 'adu') {
+    flags.push({ type:'warn', text:'<strong>ADU permits in the Bay Area take 3–9 months.</strong> Pleasanton, Oakland, and Berkeley have specific setback and owner-occupancy rules. Budget $8–18K just for permits, design, and engineering before construction starts.' });
+    flags.push({ type:'gold', text:'<strong>ADU rental income potential:</strong> Bay Area ADUs rent for $1,800–$3,200/month. A $250K ADU can achieve a 10–15 year payback through rental income alone.' });
+  }
+  if (age === 'pre1940') {
+    flags.push({ type:'warn', text:'<strong>Pre-1940 home — expect hidden costs.</strong> Lead paint, asbestos abatement, knob-and-tube wiring, and undersized plumbing are common in Bay Area homes this age. Budget an extra $10–30K contingency.' });
+  }
+  if (age === '1940-1970') {
+    flags.push({ type:'warn', text:'<strong>1940–1970 home may have asbestos</strong> in floor tiles, popcorn ceilings, or pipe insulation. Remediation costs $1,500–$5,000+ and is required before demolition.' });
+  }
+  if (permits.includes('structural')) {
+    flags.push({ type:'warn', text:'<strong>Structural changes require engineering drawings and city review.</strong> In SF/Bay Area, structural permits add $3,000–$8,000 in fees and 2–6 months to your timeline.' });
+  }
+  if (permits.includes('adu_permit')) {
+    flags.push({ type:'info', text:'<strong>California SB 9 and AB 2221</strong> have streamlined ADU permitting statewide. Many Bay Area cities must now approve compliant ADUs ministerially (no discretionary review). Check your city\'s ADU guide first.' });
+  }
+  if (pt === 'kitchen' && (loc === 'sf' || loc === 'marin')) {
+    flags.push({ type:'gold', text:'<strong>Kitchen remodels in SF/Marin return 60–80% on resale</strong> according to Remodeling Magazine\'s Cost vs. Value report. Mid-range finishes deliver better ROI than premium in most SF submarkets.' });
+  }
+  if (!flags.length) {
+    flags.push({ type:'info', text:'<strong>No major risk flags</strong> for your project profile. Standard contingency of 15–20% is recommended for any renovation.' });
+  }
+
+  const container = document.getElementById('riskFlags');
+  container.innerHTML = flags.map(f => `
+    <div class="risk-flag ${f.type}">
+      <span class="risk-flag-icon">${f.type==='warn'?'⚠️':f.type==='gold'?'💡':'ℹ️'}</span>
+      <div class="risk-flag-text">${f.text}</div>
+    </div>
+  `).join('');
+}
+
+// ── Scope items by type ──
+const scopeItems = {
+  kitchen: [
+    ['Demolition and haul-away', '$1,200–$2,800'],
+    ['Cabinetry (semi-custom)', '$8,000–$20,000'],
+    ['Countertops (quartz/stone)', '$3,500–$9,000'],
+    ['Appliances', '$4,000–$15,000'],
+    ['Plumbing (supply + drain)', '$2,500–$6,500'],
+    ['Electrical (GFCI, circuits)', '$1,800–$4,500'],
+    ['Tile backsplash', '$800–$3,500'],
+    ['Flooring', '$2,000–$7,000'],
+    ['Lighting (can lights + pendants)', '$1,200–$4,000'],
+    ['Paint and trim', '$800–$2,000'],
+    ['Permits', '$1,500–$4,000'],
+    ['Contingency (15–20%)', 'Add to total']
+  ],
+  bathroom: [
+    ['Demolition and tile removal', '$800–$1,800'],
+    ['Plumbing rough-in and fixtures', '$3,000–$8,000'],
+    ['Tile work (walls + floor)', '$3,500–$9,000'],
+    ['Shower / tub', '$1,500–$8,000'],
+    ['Vanity + sink + faucet', '$800–$4,000'],
+    ['Toilet', '$300–$1,200'],
+    ['Lighting + exhaust fan', '$400–$1,500'],
+    ['Waterproofing / moisture barrier', '$600–$2,000'],
+    ['Drywall (cement board)', '$500–$1,500'],
+    ['Paint and trim', '$400–$1,200'],
+    ['Permits', '$800–$2,500'],
+    ['Contingency (15–20%)', 'Add to total']
+  ],
+  adu: [
+    ['Site prep and foundation', '$15,000–$40,000'],
+    ['Framing', '$20,000–$45,000'],
+    ['Roofing', '$10,000–$22,000'],
+    ['Electrical (panel + wiring)', '$12,000–$25,000'],
+    ['Plumbing (full rough-in)', '$15,000–$35,000'],
+    ['HVAC / mini-split system', '$6,000–$15,000'],
+    ['Insulation + drywall', '$8,000–$18,000'],
+    ['Windows and exterior doors', '$5,000–$14,000'],
+    ['Kitchen and bath finishes', '$15,000–$35,000'],
+    ['Flooring', '$4,000–$10,000'],
+    ['Permits + plan check + engineering', '$8,000–$20,000'],
+    ['Utility connections (gas, sewer)', '$3,000–$12,000'],
+    ['Contingency (20–25%)', 'Add to total']
+  ],
+  full: [
+    ['Demolition (selective or full gut)', '$8,000–$25,000'],
+    ['Structural / engineering', '$15,000–$45,000'],
+    ['Roofing (if needed)', '$15,000–$35,000'],
+    ['Windows and doors', '$12,000–$40,000'],
+    ['Electrical upgrade + rewire', '$15,000–$40,000'],
+    ['Plumbing', '$12,000–$35,000'],
+    ['HVAC', '$10,000–$30,000'],
+    ['Insulation + drywall', '$12,000–$28,000'],
+    ['Kitchen remodel', '$50,000–$120,000'],
+    ['Bathrooms (per bath)', '$25,000–$60,000'],
+    ['Flooring throughout', '$15,000–$45,000'],
+    ['Paint and trim', '$8,000–$20,000'],
+    ['Permits (all trades)', '$8,000–$25,000'],
+    ['Contingency (20–25%)', 'Add to total']
+  ]
+};
+
+const defaultScope = scopeItems.kitchen;
+
+const contractorQuestions = [
+  'Are you licensed and insured in California? Can you provide proof?',
+  'Will you pull all required permits, or is that my responsibility?',
+  'What subcontractors will you use, and are they licensed?',
+  'What is your payment schedule, and do you require a large upfront deposit?',
+  'How do you handle change orders — written only, or verbal is OK?',
+  'What is your current backlog, and when can you start?',
+  'Have you done projects of this scope in [my city] in the last 12 months?',
+  'Who is my day-to-day point of contact during construction?',
+  'How do you handle material cost increases mid-project?',
+  'What happens if you find hidden damage (asbestos, rot, old wiring)?',
+  'What warranty do you offer on labor and materials?',
+  'Can I talk to three recent clients in my area as references?'
+];
+
+// ── Run AI ──
+async function runAI() {
+  setStep(4);
+
+  // Compute estimated range
+  const pt = state.projectType || 'kitchen';
+  const loc = state.location || 'eastbay';
+  const finish = state.finish || 'mid';
+
+  const locKey = ['sf','eastbay','peninsula','marin'].includes(loc) ? loc : 'eastbay';
+  const baseRange = costData[pt]?.[locKey] || costData.kitchen.eastbay;
+  const mult = finishMult[finish] || 1.0;
+  const low = Math.round(baseRange[0] * mult);
+  const high = Math.round(baseRange[1] * mult);
+
+  document.getElementById('estRange').textContent = '$'+low+'K–$'+high+'K';
+  document.getElementById('estSub').textContent = locationNames[loc] || 'Bay Area' + ' · ' + (finish || 'mid') + ' finish';
+  document.getElementById('timelineVal').textContent = timelines[pt] || '6–12 wks';
+  document.getElementById('reportSubtitle').textContent = `${projectNames[pt] || 'Project'} in ${locationNames[loc] || 'Bay Area'} · ${finish === 'budget' ? 'Budget' : finish === 'premium' ? 'Premium' : 'Mid-range'} finish`;
+
+  // Permit contingency
+  if (state.permits && (state.permits.includes('adu_permit') || state.permits.includes('structural'))) {
+    document.getElementById('contingencyVal').textContent = '20–25%';
+  }
+
+  buildRiskFlags();
+  buildScopeList(pt);
+  buildQuestions();
+
+  // Call Claude API
+  const aiContent = document.getElementById('aiContent');
+  const aiLoading = document.getElementById('aiLoading');
+
+  const prompt = `You are an expert renovation consultant with deep knowledge of Bay Area construction costs and contractor practices. Generate a concise, practical renovation scope breakdown for this project.
+
+Project details:
+- Type: ${projectNames[pt] || pt}
+- Location: ${locationNames[loc] || loc}
+- Budget: $${state.budget?.toLocaleString() || '75,000'}
+- Finish level: ${state.finish || 'mid-range'}
+- Home era: ${state.homeAge || 'unknown'}
+- Scope notes: ${state.notes || 'Standard renovation'}
+- Permit needs: ${state.permits?.join(', ') || 'standard'}
+- Estimated realistic range: $${low}K–$${high}K
+
+Provide:
+1. A 2-sentence executive summary of this project's feasibility and risks.
+2. Top 3 scope items most commonly under-quoted by contractors for this project type in this market.
+3. One specific, non-obvious tip for negotiating a better bid.
+4. One red flag to watch for in contractor proposals for this project type.
+
+Keep it under 300 words. Be direct, specific, and focused on Bay Area realities. Use simple HTML with <h4> and <ul> <li> tags only.`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await response.json();
+    const text = data?.content?.[0]?.text || '';
+    aiLoading.style.display = 'none';
+    aiContent.innerHTML = text || '<p>Scope analysis complete. Review the checklist below.</p>';
+  } catch (err) {
+    aiLoading.style.display = 'none';
+    // Fallback content
+    const loc_label = locationNames[loc] || 'Bay Area';
+    aiContent.innerHTML = `
+      <h4>Project feasibility</h4>
+      <p>Your ${projectNames[pt]} budget of $${(state.budget||75000).toLocaleString()} is ${
+        state.budget < low * 1000 ? 'below the typical range for ' + loc_label + ' — expect to either reduce scope or increase budget.'
+        : state.budget > high * 1000 ? 'generous for this scope — you have room for premium finishes or a comfortable contingency.'
+        : 'well-aligned with ' + loc_label + ' market rates for ' + (finish || 'mid-range') + ' finishes.'
+      }</p>
+      <h4>Most under-quoted scope items</h4>
+      <ul>
+        <li><strong>Permits and plan check:</strong> Contractors often list permits as a pass-through or exclude them entirely. Expect $${pt==='adu'?'8,000–18,000':pt==='kitchen'?'1,500–4,000':'800–3,000'} in ${loc_label}.</li>
+        <li><strong>Hidden damage contingency:</strong> ${state.homeAge === 'pre1940' || state.homeAge === '1940-1970' ? 'Older homes have a high probability of asbestos, lead, or outdated wiring. Budget an extra $8–20K.' : 'Even newer Bay Area homes can have water damage, mold, or undersized panels. Budget 15–20% contingency.'}</li>
+        <li><strong>Temporary living / storage:</strong> For major remodels, relocation costs ($2–5K/month) are rarely included in bids.</li>
+      </ul>
+      <h4>Negotiating tip</h4>
+      <p>Request a fully itemized bid with separate labor and material costs per line item. Any contractor unwilling to break it down is hiding margin in materials or doesn't know their costs — both are red flags.</p>
+      <h4>Red flag to watch</h4>
+      <p>Bids with large "allowances" (e.g. "$5,000 tile allowance") are budget traps. Real ${loc_label} tile work costs $8–18/sq ft for labor alone. Make the contractor specify the materials and quantities before you sign.</p>
+    `;
+  }
+
+  document.getElementById('scopeSection').classList.remove('hidden');
+  document.getElementById('questionsSection').classList.remove('hidden');
+}
+
+function buildScopeList(pt) {
+  const items = scopeItems[pt] || scopeItems.kitchen;
+  const list = document.getElementById('scopeList');
+  list.innerHTML = items.map(([name, cost]) => `
+    <label class="scope-item">
+      <input type="checkbox">
+      <span>${name}</span>
+      <span class="scope-cost">${cost}</span>
+    </label>
+  `).join('');
+}
+
+function buildQuestions() {
+  const list = document.getElementById('questionsList');
+  list.innerHTML = contractorQuestions.map(q => `<div class="q-card">${q}</div>`).join('');
+}
+
+// ── Comparable projects ──
+const comps = [
+  { type:'kitchen', tag:'mid', tagLabel:'Mid-range', title:'East Bay kitchen gut + island', loc:'Pleasanton, CA', price:'$68,400', time:'10 weeks', items:['Custom cabinetry (42")', 'Quartz waterfall island', 'GE Profile appliances', 'New electrical panel circuit', 'Tile backsplash'] },
+  { type:'kitchen', tag:'budget', tagLabel:'Budget', title:'SF condo kitchen refresh', loc:'San Francisco, CA', price:'$34,200', time:'6 weeks', items:['IKEA cabinetry (painted)', 'Butcher block counters', 'Basic SS appliances', 'LVP flooring', 'Paint + lighting'] },
+  { type:'kitchen', tag:'premium', tagLabel:'Premium', title:'Palo Alto open-plan kitchen', loc:'Palo Alto, CA', price:'$142,000', time:'14 weeks', items:['Full custom cabinetry', 'Calacatta marble slab', 'Wolf/Sub-Zero appliances', 'Structural wall removal', 'Full permit package'] },
+  { type:'bathroom', tag:'mid', tagLabel:'Mid-range', title:'Primary bath full remodel', loc:'Oakland, CA', price:'$31,800', time:'6 weeks', items:['Curbless walk-in shower', 'Floating vanity + Kohler fixtures', 'Large format tile', 'Heated floor', 'New exhaust + lighting'] },
+  { type:'bathroom', tag:'budget', tagLabel:'Budget', title:'Guest bath update', loc:'Concord, CA', price:'$14,600', time:'4 weeks', items:['Tub/shower re-tile', 'New vanity + mirror', 'Toilet swap', 'Paint + trim', 'Light fixture'] },
+  { type:'bathroom', tag:'premium', tagLabel:'Premium', title:'Spa bath master suite', loc:'Marin County, CA', price:'$68,500', time:'9 weeks', items:['Freestanding soaking tub', 'Steam shower', 'Radiant heat floors', 'Custom built-in storage', 'Designer tile + fixtures'] },
+  { type:'adu', tag:'mid', tagLabel:'Attached ADU', title:'Garage conversion to ADU', loc:'Fremont, CA', price:'$168,000', time:'8 months', items:['Full structural conversion', 'Separate electrical meter', 'Mini-split HVAC', 'Kitchen + bath buildout', 'New exterior entry'] },
+  { type:'adu', tag:'premium', tagLabel:'Detached ADU', title:'Backyard ADU — 600 sq ft', loc:'San Jose, CA', price:'$285,000', time:'14 months', items:['New foundation + framing', 'Solar ready panel', 'Full kitchen + 1 bed/1 bath', 'ADU permit + design', 'Utility connections'] },
+  { type:'full', tag:'mid', tagLabel:'Full remodel', title:'1960s ranch full gut', loc:'Walnut Creek, CA', price:'$420,000', time:'10 months', items:['Full kitchen + 2 bath remodel', 'Electrical + plumbing update', 'New HVAC system', 'Flooring throughout', 'All permits included'] },
+  { type:'full', tag:'premium', tagLabel:'Full remodel', title:'Bay Area contemporary gut', loc:'Orinda, CA', price:'$780,000', time:'16 months', items:['Structural open plan conversion', 'Premium kitchen + 3 baths', 'New roof + windows', 'Full systems upgrade', 'Custom millwork throughout'] }
+];
+
+let activeFilter = 'all';
+
+function filterComps(type, btn) {
+  activeFilter = type;
+  document.querySelectorAll('#compFilters .btn').forEach(b => {
+    b.className = 'btn btn-secondary';
+  });
+  btn.className = 'btn btn-primary';
+  renderComps();
+}
+
+function renderComps() {
+  const filtered = activeFilter === 'all' ? comps : comps.filter(c => c.type === activeFilter);
+  const grid = document.getElementById('compGrid');
+  grid.innerHTML = filtered.map(c => `
+    <div class="comp-card">
+      <span class="comp-tag tag-${c.tag}">${c.tagLabel}</span>
+      <div class="comp-title">${c.title}</div>
+      <div class="comp-location">📍 ${c.loc}</div>
+      <div class="comp-price">${c.price}</div>
+      <div class="comp-timeline">⏱ ${c.time}</div>
+      <div class="comp-items">
+        ${c.items.map(i => `<div class="comp-item">${i}</div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+renderComps();
+
+// init budget display
+updateBudget(75000);
+</script>
+</body>
+</html>
